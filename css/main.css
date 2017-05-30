@@ -1,0 +1,45 @@
+body {
+    background-color: whitesmoke;
+}
+
+header nav {
+    background-color: white;
+    color: black;
+}
+
+header nav a {
+    color: black;
+}
+
+.navbar-fixed {
+    z-index: 9999;
+}
+
+form {
+    border-radius: 10px;
+    margin: 0 0 50px 0;
+    padding: 20px;
+    -webkit-box-shadow: 15px 15px 58px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: 15px 15px 58px -8px rgba(0,0,0,0.75);
+    box-shadow: 15px 15px 58px -8px rgba(0,0,0,0.75);
+}
+
+.sliderButton {
+    text-align: center;
+    width: 100%;
+    top: 200px;
+    position: absolute;
+    z-index: 20323223;
+}
+
+input:disabled.disabled {
+    color: black;
+    font-size: 25px;
+}
+
+input:disabled:hover,
+input:disabled:active,
+input:disabled:focus
+{
+    font-size: 40px;
+}
