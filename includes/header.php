@@ -47,7 +47,7 @@ require_once 'checkLogin.php';
                         <li><a class="waves-effect" href="addFlight">Vlucht toevoegen</a></li>
                         <li><a class="waves-effect" href="flights">Mijn vluchten</a></li>
                         <li><a class="waves-effect" href="profile">Mijn profiel</a></li>
-                        <li><a class="waves-effect" href="">Uitloggen</a></li>
+                        <li><a class="waves-effect" href="logout">Uitloggen</a></li>
 
                     <?php } else { ?>
                         <li><a class="waves-effect" href="./">Home</a></li>

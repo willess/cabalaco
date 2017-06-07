@@ -42,6 +42,30 @@ if(isset($_GET['submit']))
 
             $flightSearchTrue = true;
             $flight = $object['flights'][0];
+//            echo $flight['route']['destinations'][0];
+
+            $curl = curl_init("https://api.schiphol.nl/public-flights/destinations/".$flight['route']['destinations'][0]."?app_id=99e00149&app_key=0f48e45ddd236fae49b34b25417606a3");
+            curl_setopt_array($curl, array(
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "resourceversion: v1"
+                ),
+            ));
+            $response = curl_exec($curl);
+            $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            curl_close($curl);
+
+            $object = json_decode($response, true);
+//            echo $object['country'];
+
+
+
+
 //          echo $flight['flightName'];
 //          echo $flight['scheduleDate'];
 //          echo $flight['route']['destinations'][0];
@@ -111,7 +135,7 @@ include('includes/header.php');
 <div class="container">
 
     <div class="row">
-        <form class="col s12" method="get" action="">
+        <form class="col s12 z-depth-4" method="get" action="">
             <h1>Vlucht toevoegen</h1>
 
             <div class="input-field col s12 m6">
@@ -150,7 +174,7 @@ include('includes/header.php');
                 </div>
 
                 <div class="input-field col s12 m4">
-                    <input class="disabled" value="<?= $flight['route']['destinations'][0] ?>" id="destination" type="text" name="destination" />
+                    <input class="disabled" value="<?= $object['city']; ?>" id="destination" type="text" name="destination" />
                     <label for="destination">Bestemming</label>
                 </div>
 

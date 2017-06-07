@@ -3,12 +3,16 @@
  */
 
 $(document).ready(function() {
+    //
+    // $('#loading').hide();
+    // $('#container').show();
 
 
     $(".button-collapse").sideNav();
 
     $('.slider').slider({
-        interval: 3000,
+        interval: 4000,
+        height: 300,
         indicators: false
     });
 
@@ -39,4 +43,12 @@ $(document).ready(function() {
         setTimeout(autoplay, 4000);
         $('.carousel').carousel('next');
     }
+
+    $('.clickForInformation').click(function() {
+        console.log('test');
+        $("#cityText").toggle(300);
+        $(".clickForInformation").toggle(300);
+    });
+
+
 });
