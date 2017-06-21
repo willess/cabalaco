@@ -24,6 +24,9 @@ foreach ($flights as $flight) {
         $destinationRawUrl = rawurlencode($flight['Destination']);
         $api_key = 'cc722908bc2265f3337441afee6fc910';
 
+        $app_id = "99e00149";
+        $flight_api_key = "0f48e45ddd236fae49b34b25417606a3";
+
         $url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key='.$api_key.'&text='.$destinationRawUrl.'%20sight&sort=relevance&per_page=5&format=json&nojsoncallback=1';
         $response = json_decode(file_get_contents($url));
         $photo_array = $response->photos->photo;
@@ -42,6 +45,25 @@ foreach ($flights as $flight) {
         $textResponse = json_decode($json);
         $pageid = $textResponse->query->pageids[0];
         $cityText = $textResponse->query->pages->$pageid->extract;
+
+
+        $curl = curl_init("https://api.schiphol.nl/public-flights/flights?app_id=".$app_id."&app_key=".$flight_api_key."&scheduledate=".$currentFlight['Date_flight']."&flightname=".$currentFlight['Flightnumber']."&includedelays=false&page=0&sort=%2Bscheduletime");
+
+//$curl = curl_init("https://api.schiphol.nl/public-flights/flights?app_id=".$app_id."&app_key=".$app_key);
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "resourceversion: v3"
+            ),
+        ));
+        $response = curl_exec($curl);
+        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
     }
 
     if($flight['Date_flight'] > $dateToday) {
@@ -52,7 +74,13 @@ foreach ($flights as $flight) {
         array_push($pastFlights, $flight);
     }
 
+
+
 }
+
+//echo '<script>';
+//echo 'console.log('. json_encode( $response ) .')';
+//echo '</script>';
 
 ?>
 
@@ -147,6 +175,35 @@ include('includes/header.php');
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="col s3">
+                        <div id="processConfirmed" class="checkIn processTravel">
+                            <p class="">Inchecken</p>
+                        </div>
+                    </div>
+
+                    <div class="col s3">
+                        <div class="baggage processTravel">
+                            <p class="center-align">Bagage</p>
+                        </div>
+                    </div>
+
+                    <div class="col s3">
+                        <div class="douane processTravel">
+                            <p class="center-align lounge">Douane/ Lounge</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col s3">
+                        <div class="gate processTravel">
+                            <p class="center-align">Gate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <h3>Vluchtnummer: <?= $currentFlight['Flightnumber']; ?></h3>
             <h4>VertrekDatum: <?= $currentFlight['Date_flight']; ?></h4>
@@ -177,6 +234,81 @@ include('includes/header.php');
     </div>
 
 </div>
+
+<script type="text/javascript">
+
+    var flightInfoPhp = <?= json_encode($response); ?>;
+    var flightInfo = JSON.parse(flightInfoPhp);
+
+
+    //real Time
+    var time = new Date().getTime();
+    console.log(time);
+
+    //gate open time
+    var gateOpen = Date.parse(flightInfo['flights'][0]['expectedTimeGateOpen']);
+    console.log(flightInfo['flights'][0]['expectedTimeGateOpen']);
+    console.log(gateOpen);
+
+    //gate Close Time
+    var gateClose = Date.parse(flightInfo['flights'][0]['expectedTimeGateClosing']);
+    console.log(flightInfo['flights'][0]['expectedTimeGateClosing']);
+    console.log(gateClose);
+
+    var checkinTime = Date.parse(flightInfo['flights'][0]['checkinAllocations']['checkinAllocations'][0]['startTime']);
+    console.log(checkinTime);
+
+
+    setInterval(function(){
+
+        time = new Date().getTime();
+        console.log(time);
+
+        if(time > checkinTime) {
+            //bagage ingecheckt!
+            console.log('bagage ingecheckt!');
+            var a = document.getElementsByClassName('baggage')[0];
+//            console.log(a);
+//            var k = a.getElementsByTagName('p')[0].innerHTML = '&#10004;';
+//            console.log(k);
+            a.setAttribute('id', 'processConfirmed');
+        }
+
+        if(time > checkinTime && time < gateOpen) {
+            //douane/lounge!
+            console.log('douane/lounge!!');
+            var b = document.getElementsByClassName('douane')[0];
+
+            b.setAttribute('id', 'currentProcess');
+        }
+        else if (time > gateOpen) {
+            var b = document.getElementsByClassName('douane')[0];
+//            console.log(a);
+            b.setAttribute('id', 'processConfirmed');
+        }
+
+        //go To Gate!
+        if(time > gateOpen && time < gateClose) {
+            console.log('gate Open!');
+            var d = document.getElementsByClassName('gate')[0];
+//            console.log(a);
+            d.setAttribute('id', 'currentProcess');
+        }
+        else if (time > gateClose) {
+            //gate closed
+            console.log('gate Closed!');
+            var e = document.getElementsByClassName('gate')[0];
+//            console.log(a);
+            e.setAttribute('id', 'processConfirmed');
+        }
+    }, 1000);
+
+    console.log(flightInfo['flights'][0]);
+
+//    console.log(flightInfo['flights'][0]);
+
+
+</script>
 
 
 

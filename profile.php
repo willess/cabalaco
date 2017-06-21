@@ -4,7 +4,17 @@ session_start();
 require_once 'includes/connect.php';
 require_once 'includes/userCheck.php';
 
-//echo $user['First_name'];
+$sql = mysqli_query($db, "SELECT * FROM Traveller WHERE id = '$userId'");
+$user = mysqli_fetch_assoc($sql);
+
+$nationality = $user['Nationality'];
+$docunr = $user['Documentnumber'];
+$first_name = $user['First_name'];
+$surname = $user['Surname'];
+$dob = $user['Date_of_birth'];
+$pob = $user['Place_of_birth'];
+$sex = $user['sex'];
+$expirationDate = $user['Date_of_expiration'];
 
 ?>
 
@@ -33,8 +43,88 @@ include('includes/header.php');
 
 <div class="container">
 
-<h1>Mijn profiel</h1>
+    <div class="row">
+        <h1>Mijn profiel</h1>
 
+        <p class="black-text">Verander je paspoort gegevens.</p>
+
+        <div class="emptyForm">
+            <form class="col s12" action="" method="post">
+                <div class="row">
+
+                    <div class="input-field col s12 m6">
+                        <input value="<?= $nationality ?>" id="nationality" name="nationality" type="text" class="validate" required />
+                        <label for="nationality">Nationaliteit</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input value="<?= $docunr ?>" id="docuNumber" name="docunr" type="text" class="validate" required />
+                        <label for="docuNumber">DocumentNummer</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input value="<?= $first_name ?>" id="first_name" name="first_name" type="text" class="validate" required />
+                        <label for="first_name">Voornaam</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input value="<?= $surname ?>" id="surname" name="surname" type="text" class="validate" required />
+                        <label for="surname">Achternaam</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input value="<?= $dob ?>" id="date" type="date" name="dob" class="datepicker" />
+                        <label for="date">Geboortedatum</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input value="<?= $pob ?>" id="placeOfBirth" name="pob" type="text" class="validate" required />
+                        <label for="placeOfBirth">Geboorteplaats</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <select name="sex" required>
+                            <option value="<?= $sex ?>" disabled selected><?php if($sex != "") { echo($sex); } else { echo("Kies geslacht"); } ?></option>
+                            <option value="man">Man</option>
+                            <option value="woman">Vrouw</option>
+                        </select>
+                        <label>Geslacht</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input value="<?= $expirationDate ?>" id="expirationDate" name="expirationDate" type="date" class="datepicker2" />
+                        <label for="expirationDate">Geldig tot</label>
+                    </div>
+
+                    <p class="col s12">Inloggegevens</p>
+
+
+                    <div class="input-field col s12">
+                        <input value="<?= $email ?>" id="email" type="email" name="email" class="validate" required />
+                        <label for="email" data-error="wrong" data-success="right">Email</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input id="password" name="password" type="password" class="validate" required />
+                        <label for="password">Wachtwoord</label>
+                    </div>
+
+                    <div class="input-field col s12 m6">
+                        <input id="password" name="retypePassword" type="password" class="validate" required />
+                        <label for="password">Herhaal wachtwoord</label>
+                    </div>
+
+                    <div class="input-field col s12 center-align">
+
+                        <button class="btn waves-effect waves-light" type="submit" name="submit">Opslaan
+                            <i class="material-icons left">trending_flat</i>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 

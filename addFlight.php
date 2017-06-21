@@ -12,12 +12,10 @@ if(isset($_GET['submit']))
     $departureDate = strtoupper($_GET['departureDate']);
 
     if($departureDate != '') {
-        $app_id = "99e00149";
-        $app_key = "0f48e45ddd236fae49b34b25417606a3";
 
         $app_id = "99e00149";
         $app_key = "0f48e45ddd236fae49b34b25417606a3";
-        $curl = curl_init("https://api.schiphol.nl/public-flights/flights?app_id=99e00149&app_key=0f48e45ddd236fae49b34b25417606a3&scheduledate=".$departureDate."&flightname=".$flightNumber."&includedelays=false&page=0&sort=%2Bscheduletime");
+        $curl = curl_init("https://api.schiphol.nl/public-flights/flights?app_id=".$app_id."&app_key=".$app_key."&scheduledate=".$departureDate."&flightname=".$flightNumber."&includedelays=false&page=0&sort=%2Bscheduletime");
 
 //$curl = curl_init("https://api.schiphol.nl/public-flights/flights?app_id=".$app_id."&app_key=".$app_key);
         curl_setopt_array($curl, array(

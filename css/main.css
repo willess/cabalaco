@@ -69,3 +69,112 @@ input:disabled:focus
 #container {
     display: none;
 }
+
+
+.processTravel {
+    width: 150px;
+    height: 150px;
+    background-color: red;
+    float: left;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.processTravel p {
+    margin: 60px 0 0 0;
+    color: white;
+}
+
+#processConfirmed {
+    background-color: #29a129;
+    background-image: url("../images/check.png");
+    background-size: 75px 75px;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 20;
+    opacity: 0.5;
+}
+
+#currentProcess {
+    background-color: orange;
+    animation: pulse 5s infinite;
+    -webkit-box-shadow: 0px 0px 25px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 25px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 25px -1px rgba(0,0,0,0.75);
+}
+
+@keyframes pulse {
+    0% {
+        background-color: orange;
+    }
+
+    49% {
+        background-color: rgb(221, 148, 0);
+    }
+
+    100% {
+        background-color: orange;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .processTravel {
+        width: 75px;
+        height: 75px;
+    }
+
+    .processTravel p {
+        margin: 30px 0 0 0;
+        font-size: 10px;
+    }
+
+    .processTravel p.lounge {
+        margin:23px;
+    }
+
+    #processConfirmed {
+        background-size: 40px 40px;
+    }
+}
+
+.labelBox {
+    background-color: white;
+    width: 310px;
+    height: 568px;
+    border: 1px solid black;
+    padding: 15px;
+    margin: 0 5px;
+    font-size: 14px;
+}
+
+.labels {
+    padding: 70px 0 0 0;
+}
+
+.labelRotate {
+    /*border: 2px solid black;*/
+    padding: 0px 0 0 0;
+}
+
+#code128 g text {
+    display: none;
+}
+
+#code129 g text {
+    display: none;
+}
+
+.strepen {
+    margin: -15px 0 0 -15px;
+    position: fixed;
+    width: 308px;
+    height: 170px;
+    border-left: 25px solid greenyellow;
+    border-right: 25px solid greenyellow;
+}
+
+.labelDestination, .labelDateFlight, .labelFlightNumber {
+    color: #282828;
+    font-size: 18px;
+
+}
